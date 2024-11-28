@@ -1,0 +1,28 @@
+<app-encabezado></app-encabezado>
+<div class="container mx-auto py-8">
+    <h2 class="text-2xl font-semibold mb-4">Agregar Nueva Dirección</h2>
+    <form (ngSubmit)="agregarDireccion()">
+      <div class="mb-4">
+        <label for="linea1" class="block text-sm font-semibold mb-1">Línea 1</label>
+        <input id="linea1" [(ngModel)]="nuevaDireccion.linea1" name="linea1" class="w-full border rounded p-2" required>
+      </div>
+      <div class="mb-4">
+        <label for="linea2" class="block text-sm font-semibold mb-1">Línea 2</label>
+        <input id="linea2" [(ngModel)]="nuevaDireccion.linea2" name="linea2" class="w-full border rounded p-2">
+      </div>
+      <div class="mb-4">
+        <label for="ciudad" class="block text-sm font-semibold mb-1">Ciudad</label>
+        <input id="ciudad" [(ngModel)]="nuevaDireccion.ciudad" name="ciudad" class="w-full border rounded p-2" required>
+      </div>
+      <div class="mb-4">
+        <label for="departamento" class="block text-sm font-semibold mb-1">Departamento</label>
+        <input id="departamento" [(ngModel)]="nuevaDireccion.departamento" name="departamento" class="w-full border rounded p-2" required>
+      </div>
+      <div class="mb-4">
+        <label for="codigoPostal" class="block text-sm font-semibold mb-1">Código Postal</label>
+        <input id="codigoPostal" [(ngModel)]="nuevaDireccion.codigoPostal" name="codigoPostal" class="w-full border rounded p-2" required>
+      </div>
+      <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none">Agregar Dirección</button>
+    </form>
+  </div>
+  

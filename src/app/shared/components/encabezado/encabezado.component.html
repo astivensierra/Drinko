@@ -1,0 +1,63 @@
+<header class="bg-black text-white p-4">
+  <!-- First Row: Logo, Search Bar, Cart, User -->
+  <div class="flex flex-col md:flex-row md:justify-between items-center">
+    <!-- Logo -->
+    <a [routerLink]="['/usuario/inicio']" class="flex items-center space-x-2">
+      <img src="../../../../assets/Logo2.png" alt="Logo" class="h-14 w-auto">
+      <span class="font-bold text-xl">Drinko</span>
+    </a>
+
+    <input type="text" placeholder="Buscar..." class="w-full mx-10 p-2 rounded-md border border-gray-300 text-black focus:outline-none focus:border-indigo-500"
+       [(ngModel)]="busqueda" (input)="buscarProducto(busqueda)">
+
+
+    <!-- Cart and User Actions -->
+    <div class="flex items-center space-x-4 relative">
+      <a [routerLink]="['/usuario/carrito-de-compras']">
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
+
+      <!-- Login/Register or User Profile -->
+      <div class="relative" *ngIf="loggedIn; else notLoggedInUser">
+        <button class="flex items-center space-x-1" (click)="toggleUserActions()">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <div *ngIf="toggleUserMenu" class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-20">
+          <a [routerLink]="['/usuario/perfil']" class="block px-4 py-2 hover:bg-gray-200">Perfil</a>
+          <a [routerLink]="['/usuario/mis-pedidos']" class="block px-4 py-2 hover:bg-gray-200">Mis Pedidos</a>
+          <a (click)="cerrarSesion()" [routerLink]="['/usuario/inicio']" class="block px-4 py-2 hover:bg-gray-200">Cerrar Sesión</a>
+        </div>
+      </div>
+      <ng-template #notLoggedInUser>
+        <div class="relative">
+          <button class="flex items-center space-x-1" (click)="toggleUserActions()">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <div *ngIf="toggleUserMenu" class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-20">
+            <a [routerLink]="['/inicio-sesion']" class="block px-4 py-2 hover:bg-gray-200">Iniciar Sesión</a>
+            <a [routerLink]="['/registro']" class="block px-4 py-2 hover:bg-gray-200">Registro</a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Second Row: Navigation Links -->
+  <nav class="mt-4 flex flex-col md:flex-row md:justify-center md:items-center space-y-4 md:space-y-0 md:space-x-4">
+    <a [routerLink]="['/usuario/inicio']" class="hover:text-gray-300 font-semibold">Inicio</a>
+    <div class="relative group">
+      <button class="inline-flex items-center space-x-1" (click)="toggleCategories = !toggleCategories">
+        <span class="font-semibold">Categorías</span>
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <div *ngIf="toggleCategories" class="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-20">
+        @for (categoria of categorias; track categoria.id){
+          <a [routerLink]="['/usuario/productos']" [queryParams]="{categoriaId: categoria.id}" class="block px-4 py-2 hover:bg-gray-200">{{ categoria.nombre }}</a>
+        }
+      </div>
+    </div>
+    <a [routerLink]="['/usuario/sobre-nosotros']" class="hover:text-gray-300 font-semibold">Sobre Nosotros</a>
+    <a [routerLink]="['/usuario/resenas']" class="hover:text-gray-300 font-semibold">Reseñas</a>
+    <a [routerLink]="['/usuario/contacto']" class="hover:text-gray-300 font-semibold">Contacto</a>
+  </nav>
+</header>

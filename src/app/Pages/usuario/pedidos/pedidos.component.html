@@ -1,0 +1,20 @@
+<app-encabezado></app-encabezado>
+<div class="container mx-auto py-8">
+  <h2 class="text-2xl font-semibold mb-4">Mis Pedidos</h2>
+  
+  <div *ngIf="pedidos.length > 0; else noPedidos">
+    <div *ngFor="let pedido of pedidos" class="bg-white p-3 mb-4 shadow-md rounded-md w-full">
+      <h3 class="text-lg font-semibold">Pedido ID: {{ pedido.id }}</h3>
+      <p>Dirección: {{ pedido.direccionId }}</p>
+      <ul>
+        <li *ngFor="let producto of pedido.productos">
+          {{ producto.cantidad }} x {{ producto.precio }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <ng-template #noPedidos>
+    <p>No tienes pedidos actualmente.</p>
+  </ng-template>
+</div>

@@ -1,0 +1,10 @@
+<app-encabezado></app-encabezado>
+<div class="flex justify-center">
+    <div class="container">
+        <div class="flex flex-wrap justify-around pt-2">
+          @for (producto of productos; track producto.id){
+            <app-tarjeta-de-producto [producto]="producto"></app-tarjeta-de-producto>
+          }
+          </div>
+    </div>
+</div>

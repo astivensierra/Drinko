@@ -1,0 +1,25 @@
+<div class="bg-white p-4 mb-4 shadow-md rounded-md flex items-center w-full">
+    <img [src]="producto.imagen" alt="Producto" class="w-16 h-16 object-cover rounded-md mr-4">
+    <div class="flex-1">
+        <h3 class="text-lg font-semibold">{{ producto.nombre }}</h3>
+        <p class="text-gray-600">Id: {{ producto.id }}</p>
+    </div>
+    <div class="flex items-center">
+        <input 
+            type="number" 
+            class="w-12 h-8 border border-gray-300 rounded-md text-center mr-2" 
+            [(ngModel)]="productoCarrito.cantidad" 
+            (change)="actualizarCantidad()" 
+            min="1"
+        >
+        <span class="text-lg font-semibold">${{ producto.precio * productoCarrito.cantidad }}</span>
+        <button 
+            mat-icon-button 
+            color="warn" 
+            class="ml-4" 
+            (click)="EliminarProducto()"
+        >
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+</div>

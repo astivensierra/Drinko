@@ -1,0 +1,15 @@
+<!-- resenas.component.html -->
+<app-encabezado></app-encabezado>
+<div class="container mx-auto py-8 px-2">
+    <h1 class="text-3xl font-bold mb-4">Reseñas</h1>
+  
+    <!-- Reseñas -->
+    <div class="flex flex-wrap justify-center">
+      @for (resena of resenas; track resena.id){
+        <app-tarjeta-de-resena [resena]="resena"></app-tarjeta-de-resena>
+      }
+    </div>
+  
+  
+  </div>
+  

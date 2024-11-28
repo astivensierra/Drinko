@@ -1,0 +1,30 @@
+<app-encabezado></app-encabezado>
+<div class="container mx-auto py-8">
+    <h2 class="text-2xl font-semibold mb-4">Carrito de Compras</h2>
+  
+    <!-- Producto en el carrito -->
+    <div class="bg-white p-3 mb-4 shadow-md rounded-md w-full">
+        
+        @for(producto of productosCarrito; track producto.id){
+          <app-tarjeta-de-producto-de-carrito 
+            [productoCarrito]="producto" 
+            [carritoId]="carrito.id"
+            (productoEliminado)="onProductoEliminado()"
+            (cantidadActualizada)="onCantidadActualizada()"
+            >
+          </app-tarjeta-de-producto-de-carrito>
+        }
+    </div>
+  
+    <!-- Total y botones -->
+    <div class="flex justify-between items-center">
+      <div>
+        <p class="text-lg font-semibold">Total: ${{ total }}</p>
+        <p class="text-sm text-gray-600">Envío incluido</p>
+      </div>
+      <div>
+        <button class="bg-black text-white font-semibold px-4 py-2 rounded-md hover:bg-gray-900 focus:outline-none" (click)="comprar()">Comprar</button>
+        <button class="ml-2 text-gray-600 font-semibold focus:outline-none" (click)="vaciarCarrito()">Vaciar Carrito</button>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,54 @@
+<app-encabezado></app-encabezado>
+<!-- detalles-de-producto.component.html -->
+
+<div class="container mx-auto p-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Imagen del producto -->
+      <div>
+        <img [src]="producto.imagen" alt="Imagen de {{ producto.nombre }}" class="w-full h-auto rounded-lg shadow-md">
+      </div>
+  
+      <!-- Detalles del producto -->
+      <div class="text-gray-800">
+        <!-- Nombre del producto -->
+        <h1 class="text-4xl font-bold mb-4">{{ producto.nombre }}</h1>
+  
+        <!-- Descripción del producto -->
+        <p class="text-lg mb-4">{{ producto.descripcion }}</p>
+  
+        <!-- Detalles adicionales -->
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <!-- Mililitros -->
+          <div>
+            <p class="font-semibold text-gray-600">Mililitros:</p>
+            <p>{{ producto.mililitros }} ml</p>
+          </div>
+  
+          <!-- Grados de Alcohol -->
+          <div>
+            <p class="font-semibold text-gray-600">Grados de Alcohol:</p>
+            <p>{{ producto.gradosDeAlcohol }}%</p>
+          </div>
+  
+          <!-- Calificación -->
+          <div>
+            <p class="font-semibold text-gray-600">Calificación:</p>
+            <p>{{ producto.calificacion }}/5</p>
+          </div>
+  
+          <!-- Precio -->
+          <div>
+            <p class="font-semibold text-gray-600">Precio:</p>
+            <p>${{ producto.precio }}</p>
+          </div>
+        </div>
+  
+        <!-- Botón de compra o acción -->
+      <button class="bg-black text-white px-6 py-3 rounded-md shadow-md hover:bg-gray-800 transition-colors duration-300"
+            (click)="agregarAlCarrito()">
+        Agregar al Carrito
+        </button>
+      </div>
+    </div>
+  </div>
+  

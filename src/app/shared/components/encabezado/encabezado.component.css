@@ -1,0 +1,22 @@
+/* encabezado.component.css */
+header {
+    background-color: #000;
+  }
+  
+  input::placeholder {
+    color: #6b7280; /* Tailwind's gray-400 */
+  }
+  
+  nav .relative:hover .group-hover\\:block {
+    display: block;
+  }
+  
+  nav .relative .group-hover\\:block {
+    display: none;
+  }
+  
+  nav .relative:hover .group-hover\\:block,
+  nav .relative:focus-within .group-hover\\:block {
+    display: block;
+  }
+  

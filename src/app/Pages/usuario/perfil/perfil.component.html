@@ -1,0 +1,42 @@
+<app-encabezado></app-encabezado>
+
+<div class="container mx-auto py-8 px-2">
+  <div class="max-w-lg mx-auto bg-white p-6 shadow-md rounded-lg">
+
+    <!-- Encabezado con información del usuario -->
+    <div class="flex items-center mb-6">
+      <!-- Icono de usuario -->
+      <div class="bg-gray-200 rounded-full p-4">
+        <mat-icon>account_circle</mat-icon> <!-- Utilizando MatIcon para el icono -->
+      </div>
+
+      <!-- Información del usuario -->
+      <div class="ml-4">
+        <h1 class="text-2xl font-bold">{{ usuario.nombre }} {{ usuario.apellido }}</h1>
+        <p class="text-gray-600">{{ usuario.correo }}</p>
+        <p class="text-gray-600">{{ usuario.numeroDeTelefono }}</p>
+      </div>
+    </div>
+
+    <!-- Direcciones del usuario -->
+    <div>
+      <h2 class="text-xl font-semibold mb-4">Direcciones</h2>
+      <ul>
+        <li *ngFor="let direccion of usuario.direcciones" class="text-gray-600 mb-2">
+          {{ direccion.linea1 }}, {{ direccion.linea2 }}, {{ direccion.ciudad }}, {{ direccion.departamento }}, CP {{ direccion.codigoPostal }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Botones para acciones adicionales -->
+    <div class="flex justify-end mt-6">
+      <!-- <button class="bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 focus:outline-none">
+        Editar Perfil
+      </button> -->
+      <button (click)="cerrarSesion()" [routerLink]="['/usuario/inicio']" class="ml-2 bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 focus:outline-none">
+        Cerrar Sesión
+      </button>
+    </div>
+
+  </div>
+</div>
