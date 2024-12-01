@@ -1,26 +1,29 @@
-import { ProductoService } from './../../../core/services/producto.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { ProductoService } from '../../../core/services/producto.service';
 import { Producto } from '../../../core/models/producto.model';
+
 @Component({
   selector: 'app-gestion-productos',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule],
+  imports: [MatTableModule, MatButtonModule, CommonModule, FormsModule], // Add FormsModule to imports
   templateUrl: './gestion-productos.component.html',
   styleUrls: ['./gestion-productos.component.css']
 })
 export class GestionProductosComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre', 'precio', 'stock', 'acciones'];
-  dataSource: any[] = [];
+  dataSource: Producto[] = [];
 
   nuevoProducto: Producto = {
-    id: '', // Add default value for
+    id: '',
     nombre: '',
     precio: 0,
     stock: 0,
-    categoriaId: '', // Add default value for categoriaId
-    imagen: '', // Add default value for imagen
+    categoriaId: '',
+    imagen: '',
     descripcion: '',
     mililitros: 0,
     gradosDeAlcohol: 0,
@@ -38,8 +41,10 @@ export class GestionProductosComponent implements OnInit {
   actualizarProducto(id: string, producto: Producto): void {
     this.productoService.actualizarProducto(id, producto).subscribe(() => {
       alert('Producto actualizado');
-      this.productoService.obtenerProductos();
-    }, (error) => {
+      this.productoService.obtenerProductos().subscribe((productos: Producto[]) => {
+        this.dataSource = productos;
+      });
+    }, (error: any) => {
       console.error('Error al actualizar el producto:', error);
     });
   }
@@ -47,8 +52,10 @@ export class GestionProductosComponent implements OnInit {
   crearProducto(producto: Producto): void {
     this.productoService.crearProducto(producto).subscribe(() => {
       alert('Producto creado');
-      this.productoService.obtenerProductos();
-    }, (error) => {
+      this.productoService.obtenerProductos().subscribe((productos: Producto[]) => {
+        this.dataSource = productos;
+      });
+    }, (error: any) => {
       console.error('Error al crear el producto:', error);
     });
   }
@@ -56,26 +63,19 @@ export class GestionProductosComponent implements OnInit {
   eliminarProducto(id: string): void {
     this.productoService.eliminarProducto(id).subscribe(() => {
       alert('Producto eliminado');
-      this.productoService.obtenerProductos();
-    }, (error) => {
+      this.productoService.obtenerProductos().subscribe((productos: Producto[]) => {
+        this.dataSource = productos;
+      });
+    }, (error: any) => {
       console.error('Error al eliminar el producto:', error);
-    });
-  }
-
-  obtenerProductosPorCategoria(categoriaId: string): void {
-    this.productoService.obtenerProductosPorCategoria(categoriaId).subscribe((productos) => {
-      this.dataSource = productos;
-    }, (error) => {
-      console.error('Error al obtener los productos por categoría:', error);
     });
   }
 
   obtenerProductoPorId(id: string): void {
     this.productoService.obtenerProductoPorId(id).subscribe((producto) => {
       console.log('Producto:', producto);
-    }, (error) => {
+    }, (error: any) => {
       console.error('Error al obtener el producto por ID:', error);
     });
   }
-
 }

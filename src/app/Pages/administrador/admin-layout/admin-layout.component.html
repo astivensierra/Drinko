@@ -1,12 +1,50 @@
 <div class="admin-layout">
-  <header>
-    <h1>Panel de Administración</h1>
-    <!-- Aquí puedes agregar un menú de navegación o un header -->
-  </header>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-  <footer>
-    <p>&copy; 2023 Tu Empresa. Todos los derechos reservados.</p>
-  </footer>
+  <div class="min-h-screen bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm border-b">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <div class="flex-shrink-0 flex items-center">
+              <img class="h-8 w-auto" src="assets/logo.png" alt="Logo">
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <a routerLink="/administrador/inicio"
+                 routerLinkActive="border-indigo-500 text-gray-900"
+                 class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Inicio
+              </a>
+              <a routerLink="/administrador/gestion-usuarios"
+                 routerLinkActive="border-indigo-500 text-gray-900"
+                 class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Usuarios
+              </a>
+              <a routerLink="/administrador/gestion-categorias"
+                 routerLinkActive="border-indigo-500 text-gray-900"
+                 class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Categorías
+              </a>
+              <a routerLink="/administrador/gestion-productos"
+                 routerLinkActive="border-indigo-500 text-gray-900"
+                 class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Productos
+              </a>
+              <a routerLink="/administrador/gestion-pedidos"
+                 routerLinkActive="border-indigo-500 text-gray-900"
+                 class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Pedidos
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="py-6">
+      <div class="max-w-7xl mx-auto px-4">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </div>

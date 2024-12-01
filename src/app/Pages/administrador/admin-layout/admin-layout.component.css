@@ -1,13 +1,8 @@
-.example-container {
-  height: 100%;
+:host {
+  display: block;
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-
-.content {
-  margin: 16px;
+.router-link-active {
+  border-color: #4f46e5;
+  color: #111827;
 }

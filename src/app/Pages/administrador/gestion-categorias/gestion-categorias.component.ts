@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { CategoriaService } from '../../../core/services/categoria.service';
 import { Categoria } from '../../../core/models/categoria.model';
 
 @Component({
   selector: 'app-gestion-categorias',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, CommonModule],
+  imports: [MatTableModule, MatButtonModule, CommonModule, FormsModule], // Add FormsModule to imports
   templateUrl: './gestion-categorias.component.html',
   styleUrls: ['./gestion-categorias.component.css']
 })
@@ -29,13 +30,13 @@ export class GestionCategoriasComponent implements OnInit {
     });
   }
 
-  actualizarCategoria(id: string, categoria: Categoria): void {
-    this.categoriaService.actualizarCategoria(id, categoria).subscribe(() => {
+  actualizarCategoria(categoria: Categoria): void {
+    this.categoriaService.actualizarCategoria(categoria.id, categoria).subscribe(() => {
       alert('Categoria actualizada');
-      this.categoriaService.obtenerCategorias().subscribe((categorias) => {
+      this.categoriaService.obtenerCategorias().subscribe((categorias: Categoria[]) => {
         this.dataSource = categorias;
       });
-    }, (error) => {
+    }, (error: any) => {
       console.error('Error al actualizar la categoria:', error);
     });
   }
@@ -43,10 +44,10 @@ export class GestionCategoriasComponent implements OnInit {
   crearCategoria(categoria: Categoria): void {
     this.categoriaService.crearCategoria(categoria).subscribe(() => {
       alert('Categoria creada');
-      this.categoriaService.obtenerCategorias().subscribe((categorias) => {
+      this.categoriaService.obtenerCategorias().subscribe((categorias: Categoria[]) => {
         this.dataSource = categorias;
       });
-    }, (error) => {
+    }, (error: any) => {
       console.error('Error al crear la categoria:', error);
     });
   }
@@ -54,10 +55,10 @@ export class GestionCategoriasComponent implements OnInit {
   eliminarCategoria(id: string): void {
     this.categoriaService.eliminarCategoria(id).subscribe(() => {
       alert('Categoria eliminada');
-      this.categoriaService.obtenerCategorias().subscribe((categorias) => {
+      this.categoriaService.obtenerCategorias().subscribe((categorias: Categoria[]) => {
         this.dataSource = categorias;
       });
-    }, (error) => {
+    }, (error: any) => {
       console.error('Error al eliminar la categoria:', error);
     });
   }
@@ -65,7 +66,7 @@ export class GestionCategoriasComponent implements OnInit {
   obtenerCategoriaPorId(id: string): void {
     this.categoriaService.obtenerCategoriaPorId(id).subscribe((categoria) => {
       console.log('Categoria:', categoria);
-    }, (error) => {
+    }, (error: any) => {
       console.error('Error al obtener la categoria por ID:', error);
     });
   }

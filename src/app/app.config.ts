@@ -1,7 +1,8 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
+
+// Usa 'routes' según sea necesario en tu configuración
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch,HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
@@ -9,7 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes), 
+    provideRouter(routes),
     provideClientHydration(),
     HttpClientModule,
     provideHttpClient(withFetch()), // Habilita fetch aquí

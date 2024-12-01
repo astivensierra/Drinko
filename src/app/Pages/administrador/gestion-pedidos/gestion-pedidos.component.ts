@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { Pedido } from '../../../core/models/pedido.model';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { PedidoService } from '../../../core/services/pedido.service';
+import { Pedido } from '../../../core/models/pedido.model';
 
 @Component({
   selector: 'app-gestion-pedidos',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, CommonModule],
+  imports: [MatTableModule, MatButtonModule, CommonModule, FormsModule], // Add FormsModule to imports
   templateUrl: './gestion-pedidos.component.html',
   styleUrls: ['./gestion-pedidos.component.css']
 })
@@ -37,8 +38,10 @@ export class GestionPedidosComponent implements OnInit {
   actualizarPedido(id: string, pedido: Pedido): void {
     this.pedidoService.actualizarPedido(id, pedido).subscribe(() => {
       alert('Pedido actualizado');
-      this.pedidoService.obtenerPedidos();
-    }, (error) => {
+      this.pedidoService.obtenerPedidos().subscribe((pedidos: Pedido[]) => {
+        this.pedidos = pedidos;
+      });
+    }, (error: any) => {
       console.error('Error al actualizar el pedido:', error);
     });
   }
@@ -46,39 +49,30 @@ export class GestionPedidosComponent implements OnInit {
   eliminarPedido(id: string): void {
     this.pedidoService.eliminarPedido(id).subscribe(() => {
       alert('Pedido eliminado');
-      this.pedidoService.obtenerPedidos().subscribe((pedidos) => {
+      this.pedidoService.obtenerPedidos().subscribe((pedidos: Pedido[]) => {
         this.pedidos = pedidos;
       });
-    }, (error) => {
+    }, (error: any) => {
       console.error('Error al eliminar el pedido:', error);
     });
   }
 
   obtenerPedidoPorId(id: string): void {
     this.pedidoService.obtenerPedidoPorId(id).subscribe((pedido) => {
-      console.log(pedido);
-    }, (error) => {
-      console.error('Error al obtener el pedido:', error);
+      console.log('Pedido:', pedido);
+    }, (error: any) => {
+      console.error('Error al obtener el pedido por ID:', error);
     });
   }
 
-  verificarPedido(id: string): void {
-    this.pedidoService.verificarPedido(id).subscribe((pedido) => {
-      console.log(pedido);
-    }, (error) => {
-      console.error('Error al verificar el pedido:', error);
-    });
-  }
-
-  crearPedido(pedido: { usuarioId: string; direccionId: string }): void {
+  crearPedido(pedido: Pedido): void {
     this.pedidoService.crearPedido(pedido).subscribe(() => {
       alert('Pedido creado');
-      this.pedidoService.obtenerPedidos().subscribe((pedidos) => {
+      this.pedidoService.obtenerPedidos().subscribe((pedidos: Pedido[]) => {
         this.pedidos = pedidos;
       });
-    }, (error) => {
+    }, (error: any) => {
       console.error('Error al crear el pedido:', error);
     });
   }
-
 }

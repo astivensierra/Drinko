@@ -1,5 +1,4 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
   <!-- ID Column -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -35,7 +34,15 @@
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
 </table>
 
-<button mat-raised-button color="primary" (click)="crearProducto(nuevoProducto)">Crear Producto</button>
+<!-- Formulario para crear un nuevo producto -->
+<form (ngSubmit)="crearProducto(nuevoProducto)">
+  <label for="nombre">Nombre:</label>
+  <input id="nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" required>
+  <label for="precio">Precio:</label>
+  <input id="precio" [(ngModel)]="nuevoProducto.precio" name="precio" type="number" required>
+  <label for="stock">Stock:</label>
+  <input id="stock" [(ngModel)]="nuevoProducto.stock" name="stock" type="number" required>
+  <button type="submit" mat-raised-button color="primary">Crear Producto</button>
+</form>

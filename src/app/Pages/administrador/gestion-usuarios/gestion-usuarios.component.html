@@ -2,27 +2,27 @@
   <!-- ID Column -->
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    <td mat-cell *matCellDef="let usuario"> {{usuario.id}} </td>
   </ng-container>
 
   <!-- Nombre Column -->
   <ng-container matColumnDef="nombre">
     <th mat-header-cell *matHeaderCellDef> Nombre </th>
-    <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+    <td mat-cell *matCellDef="let usuario"> {{usuario.nombre}} </td>
   </ng-container>
 
   <!-- Email Column -->
   <ng-container matColumnDef="email">
     <th mat-header-cell *matHeaderCellDef> Email </th>
-    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    <td mat-cell *matCellDef="let usuario"> {{usuario.email}} </td>
   </ng-container>
 
   <!-- Acciones Column -->
   <ng-container matColumnDef="acciones">
     <th mat-header-cell *matHeaderCellDef> Acciones </th>
-    <td mat-cell *matCellDef="let element">
-      <button mat-button (click)="verificarExistencia(element.id)">Verificar</button>
-      <button mat-button color="warn" (click)="eliminarUsuario(element.id)">Eliminar</button>
+    <td mat-cell *matCellDef="let usuario">
+      <button mat-button (click)="actualizarUsuario(usuario.id, usuario)">Actualizar</button>
+      <button mat-button (click)="eliminarUsuario(usuario.id)">Eliminar</button>
     </td>
   </ng-container>
 
@@ -30,4 +30,18 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<button mat-raised-button color="primary">Crear Usuario</button>
+<!-- Formulario para crear un nuevo usuario -->
+<form (ngSubmit)="crearUsuario(nuevoUsuario)">
+  <label for="nombre">Nombre:</label>
+  <input id="nombre" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required>
+  <label for="email">Email:</label>
+  <input id="email" [(ngModel)]="nuevoUsuario.correo" name="email" type="email" required>
+  <label for="password">Contraseña:</label>
+  <input id="password" [(ngModel)]="nuevoUsuario.clave" name="password" type="password" required>
+  <label for="rol">Rol:</label>
+  <select id="rol" [(ngModel)]="nuevoUsuario.rol" name="rol" required>
+    <option value="admin">Administrador</option>
+    <option value="user">Usuario</option>
+  </select>
+  <button type="submit" mat-raised-button color="primary">Crear Usuario</button>
+</form>
