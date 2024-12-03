@@ -11,13 +11,13 @@ import { EncabezadoComponent } from "../../../shared/components/encabezado/encab
 import { Pedido, ProductoPedido } from '../../../core/models/pedido.model';
 import { Direccion } from '../../../core/models/direccion.model';
 import { UsuarioService } from '../../../core/services/usuario.service';
-
+import { SharedModule } from '../shared.module/shared.module.module';
 @Component({
     selector: 'app-agregar-pedido',
     standalone: true,
     templateUrl: './agregar-pedido.component.html',
     styleUrl: './agregar-pedido.component.css',
-    imports: [CommonModule, FormsModule, EncabezadoComponent]
+    imports: [CommonModule, FormsModule, EncabezadoComponent,  SharedModule]
 })
 export class AgregarPedidoComponent implements OnInit {
   productosCarrito: ProductoPedido[] = [];
@@ -76,38 +76,4 @@ export class AgregarPedidoComponent implements OnInit {
     this.router.navigate(['/usuario/agregar-direccion']);
   }
 
-  realizarPedido(): void {
-    if (!this.direccionSeleccionada) {
-      alert("Por favor, selecciona una dirección para el envío.");
-      return;
-    }
-
-    const nuevoPedido: Pedido = {
-      id: '',
-      usuarioId: '',
-      direccionId: '',
-      productos: [] as ProductoPedido[], // Asegúrate de tener un array de ProductoPedido
-      cliente: '', // Agrega un valor por defecto para cliente
-      fecha: new Date(), // Agrega un valor por defecto para fecha
-      estado: ''
-    };
-
-    this.pedidoService.crearPedido(nuevoPedido).subscribe(
-      response => {
-        console.log("Pedido realizado con éxito", response);
-        this.carritoService.vaciarCarrito(this.carrito.id).subscribe(
-          () => {
-            console.log("Carrito vaciado con éxito");
-            this.router.navigate(['/usuario/pedidos']);
-          },
-          error => {
-            console.log("Error al vaciar el carrito: ", error);
-          }
-        );
-      },
-      error => {
-        console.log("Error al realizar el pedido: ", error);
-      }
-    );
-  }
 }
