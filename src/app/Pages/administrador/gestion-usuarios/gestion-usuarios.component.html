@@ -29,7 +29,7 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left font-semibold text-sm"> Acciones </th>
       <td mat-cell *matCellDef="let usuario" class="px-4 py-2 text-sm">
-        <button mat-button (click)="actualizarUsuario(usuario.id, usuario)" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar</button>
+       <!-- <button mat-button (click)="cargarUsuarioParaEdicion(usuario)" class="bg-blue-500 text-white px-4 py-2 rounded">Editar</button> -->
         <button mat-button (click)="eliminarUsuario(usuario.id)" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
       </td>
     </ng-container>
@@ -68,4 +68,30 @@
       <button type="submit" mat-raised-button color="primary" class="bg-blue-500 text-white px-6 py-2 rounded">Crear Usuario</button>
     </div>
   </form>
+
+  <!-- Formulario para Editar Usuario -->
+  <div *ngIf="mostrarFormularioEdicion" class="space-y-4 max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+    <h3>Editar Usuario</h3>
+    <form (ngSubmit)="guardarUsuario()">
+      <div>
+        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+        <input id="nombre" [(ngModel)]="usuarioEditado.nombre" name="nombre" required class="mt-2 p-3 border border-gray-300 rounded w-full">
+      </div>
+
+      <div>
+        <label for="correo" class="block text-sm font-medium text-gray-700">Correo:</label>
+        <input id="correo" [(ngModel)]="usuarioEditado.correo" name="correo" type="email" required class="mt-2 p-3 border border-gray-300 rounded w-full">
+      </div>
+
+      <div>
+        <label for="clave" class="block text-sm font-medium text-gray-700">Contraseña:</label>
+        <input id="clave" [(ngModel)]="usuarioEditado.clave" name="clave" type="password" required class="mt-2 p-3 border border-gray-300 rounded w-full">
+      </div>
+
+      <div class="flex justify-end">
+        <button type="submit" mat-raised-button color="primary" class="bg-blue-500 text-white px-6 py-2 rounded">Guardar Cambios</button>
+        <button type="button" mat-raised-button color="warn" (click)="limpiarFormulario()" class="bg-gray-500 text-white px-6 py-2 rounded">Cancelar</button>
+      </div>
+    </form>
+  </div>
 </div>

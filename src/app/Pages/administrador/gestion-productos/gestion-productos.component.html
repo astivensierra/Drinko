@@ -41,7 +41,7 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let producto">
-        <button mat-button color="primary" (click)="actualizarProducto(producto.id, producto)">Actualizar</button>
+        <button mat-button color="primary" (click)="cargarProductoParaEdicion(producto)">Editar</button>
         <button mat-button color="warn" (click)="eliminarProducto(producto.id)">Eliminar</button>
       </td>
     </ng-container>
@@ -51,32 +51,72 @@
   </table>
 
   <!-- Formulario para Crear Producto -->
-  <form (ngSubmit)="crearProducto()" class="mt-8 space-y-4 max-w-lg mx-auto">
-    <label for="nombre">Nombre:</label>
-    <input id="nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" class="w-full border p-2" required>
+  <div class="mt-8 space-y-4 max-w-lg mx-auto">
+    <h3>Crear Producto</h3>
+    <form (ngSubmit)="guardarProducto()">
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" class="w-full border p-2" required>
 
-    <label for="categoriaId">Categoría:</label>
-    <select id="categoriaId" [(ngModel)]="nuevoProducto.categoriaId" name="categoriaId" class="w-full border p-2" required>
-      <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option>
-    </select>
+      <label for="categoriaId">Categoría:</label>
+      <select id="categoriaId" [(ngModel)]="nuevoProducto.categoriaId" name="categoriaId" class="w-full border p-2" required>
+        <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option>
+      </select>
 
-    <label for="precio">Precio:</label>
-    <input id="precio" [(ngModel)]="nuevoProducto.precio" name="precio" type="number" class="w-full border p-2" required>
+      <label for="precio">Precio:</label>
+      <input id="precio" [(ngModel)]="nuevoProducto.precio" name="precio" type="number" class="w-full border p-2" required>
 
-    <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" class="w-full border p-2"></textarea>
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" class="w-full border p-2"></textarea>
 
-    <label for="mililitros">Mililitros:</label>
-    <input id="mililitros" [(ngModel)]="nuevoProducto.mililitros" name="mililitros" type="number" class="w-full border p-2">
+      <label for="mililitros">Mililitros:</label>
+      <input id="mililitros" [(ngModel)]="nuevoProducto.mililitros" name="mililitros" type="number" class="w-full border p-2">
 
-    <label for="gradosDeAlcohol">Grados de Alcohol:</label>
-    <input id="gradosDeAlcohol" [(ngModel)]="nuevoProducto.gradosDeAlcohol" name="gradosDeAlcohol" type="number" class="w-full border p-2">
+      <label for="gradosDeAlcohol">Grados de Alcohol:</label>
+      <input id="gradosDeAlcohol" [(ngModel)]="nuevoProducto.gradosDeAlcohol" name="gradosDeAlcohol" type="number" class="w-full border p-2">
 
-    <label for="calificacion">Calificación:</label>
-    <input id="calificacion" [(ngModel)]="nuevoProducto.calificacion" name="calificacion" type="number" step="0.1" class="w-full border p-2">
+      <label for="calificacion">Calificación:</label>
+      <input id="calificacion" [(ngModel)]="nuevoProducto.calificacion" name="calificacion" type="number" step="0.1" class="w-full border p-2">
 
-    <label for="imagen">Imagen (URL):</label>
-    <input id="imagen" [(ngModel)]="nuevoProducto.imagen" name="imagen" class="w-full border p-2">
+      <label for="imagen">Imagen (URL):</label>
+      <input id="imagen" [(ngModel)]="nuevoProducto.imagen" name="imagen" class="w-full border p-2">
 
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Crear Producto</button>
-  </form>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Crear Producto</button>
+      <button type="button" (click)="limpiarFormulario()" class="bg-gray-500 text-white px-4 py-2 rounded">Cancelar</button>
+    </form>
+  </div>
+
+  <!-- Formulario para Editar Producto -->
+  <div *ngIf="mostrarFormularioEdicion" class="mt-8 space-y-4 max-w-lg mx-auto">
+    <h3>Editar Producto</h3>
+    <form (ngSubmit)="guardarProducto()">
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" [(ngModel)]="nuevoProducto.nombre" name="nombre" class="w-full border p-2" required>
+
+      <label for="categoriaId">Categoría:</label>
+      <select id="categoriaId" [(ngModel)]="nuevoProducto.categoriaId" name="categoriaId" class="w-full border p-2" required>
+        <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.nombre }}</option>
+      </select>
+
+      <label for="precio">Precio:</label>
+      <input id="precio" [(ngModel)]="nuevoProducto.precio" name="precio" type="number" class="w-full border p-2" required>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" class="w-full border p-2"></textarea>
+
+      <label for="mililitros">Mililitros:</label>
+      <input id="mililitros" [(ngModel)]="nuevoProducto.mililitros" name="mililitros" type="number" class="w-full border p-2">
+
+      <label for="gradosDeAlcohol">Grados de Alcohol:</label>
+      <input id="gradosDeAlcohol" [(ngModel)]="nuevoProducto.gradosDeAlcohol" name="gradosDeAlcohol" type="number" class="w-full border p-2">
+
+      <label for="calificacion">Calificación:</label>
+      <input id="calificacion" [(ngModel)]="nuevoProducto.calificacion" name="calificacion" type="number" step="0.1" class="w-full border p-2">
+
+      <label for="imagen">Imagen (URL):</label>
+      <input id="imagen" [(ngModel)]="nuevoProducto.imagen" name="imagen" class="w-full border p-2">
+
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar Producto</button>
+      <button type="button" (click)="limpiarFormulario()" class="bg-gray-500 text-white px-4 py-2 rounded">Cancelar</button>
+    </form>
+  </div>
+</div>

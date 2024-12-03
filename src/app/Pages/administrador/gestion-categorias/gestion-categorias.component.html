@@ -24,9 +24,20 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<!-- Formulario para crear una nueva categoria -->
-<form (ngSubmit)="crearCategoria(nuevaCategoria)">
+<!-- Formulario para editar una categoría -->
+<div *ngIf="categoriaEditada" class="mt-4">
+  <h3>Editar Categoría</h3>
+  <form (ngSubmit)="guardarCategoria()">
+    <label for="nombre">Nombre:</label>
+    <input id="nombre" [(ngModel)]="categoriaEditada.nombre" name="nombre" required>
+    <button type="submit" mat-raised-button color="primary">Guardar</button>
+    <button type="button" mat-raised-button color="warn" (click)="cancelarEdicion()">Cancelar</button>
+  </form>
+</div>
+
+<!-- Formulario para crear una nueva categoría -->
+<form (ngSubmit)="crearCategoria(nuevaCategoria)" class="mt-4">
   <label for="nombre">Nombre:</label>
   <input id="nombre" [(ngModel)]="nuevaCategoria.nombre" name="nombre" required>
-  <button type="submit" mat-raised-button color="primary">Crear Categoria</button>
+  <button type="submit" mat-raised-button color="primary">Crear Categoría</button>
 </form>

@@ -8,6 +8,7 @@ import { CategoriaService } from '../../../core/services/categoria.service'; // 
 import { Producto } from '../../../core/models/producto.model';
 import { Categoria } from '../../../core/models/categoria.model';
 
+
 @Component({
   selector: 'app-gestion-productos',
   standalone: true,
@@ -32,7 +33,7 @@ export class GestionProductosComponent implements OnInit {
     precio: 0,
     stock: 0
   };
-
+  mostrarFormularioEdicion: boolean = false;
   constructor(private productoService: ProductoService, private categoriaService: CategoriaService) {}
 
   ngOnInit(): void {
@@ -99,7 +100,25 @@ export class GestionProductosComponent implements OnInit {
     return !!(producto.nombre && producto.categoriaId && producto.precio);
   }
 
-  // Limpiar formulario
+
+
+  cargarProductoParaEdicion(producto: Producto): void {
+    this.nuevoProducto = { ...producto };
+    this.mostrarFormularioEdicion = true;
+  }
+
+  guardarProducto(): void {
+    if (this.validarProducto(this.nuevoProducto)) {
+      if (this.nuevoProducto.id) {
+        this.actualizarProducto(this.nuevoProducto.id, this.nuevoProducto);
+      } else {
+        this.crearProducto();
+      }
+    } else {
+      alert('Por favor, complete todos los campos requeridos.');
+    }
+  }
+
   limpiarFormulario(): void {
     this.nuevoProducto = {
       id: '',
@@ -113,5 +132,6 @@ export class GestionProductosComponent implements OnInit {
       precio: 0,
       stock: 0
     };
+    this.mostrarFormularioEdicion = false;
   }
 }

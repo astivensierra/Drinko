@@ -29,6 +29,17 @@ export class GestionUsuariosComponent implements OnInit {
   };
 
   constructor(private usuarioService: UsuarioService) {}
+  mostrarFormularioEdicion: boolean = false;
+  usuarioEditado: Usuario = {
+    id: '',
+    nombre: '',
+    apellido: '',
+    correo: '',
+    clave: '',
+    numeroDeTelefono: '',
+    direcciones: [],
+    rol: RolUsuario.Usuario
+  };
 
   ngOnInit(): void {
     this.obtenerUsuarios();
@@ -41,7 +52,7 @@ export class GestionUsuariosComponent implements OnInit {
         this.dataSource = usuarios;
       },
       (error) => {
-        console.error('Error al cargar los usuarios:', error);
+        console.error('Error al obtener usuarios:', error);
       }
     );
   }
@@ -52,19 +63,31 @@ export class GestionUsuariosComponent implements OnInit {
       this.usuarioService.crearUsuario(this.nuevoUsuario).subscribe(
         () => {
           alert('Usuario creado');
-          this.obtenerUsuarios(); // Recargar los usuarios
-          this.limpiarFormulario(); // Limpiar formulario después de crear
+          this.obtenerUsuarios();
+          this.limpiarFormulario();
         },
         (error) => {
-          console.error('Error al crear el usuario:', error);
+          console.error('Error al crear usuario:', error);
         }
       );
     } else {
-      alert('Por favor complete todos los campos del formulario');
+      alert('Por favor, complete todos los campos requeridos.');
     }
   }
 
-  // Limpiar el formulario después de crear
+  cargarUsuarioParaEdicion(usuario: Usuario): void {
+    this.usuarioEditado = { ...usuario };
+    this.mostrarFormularioEdicion = true;
+  }
+
+  guardarUsuario(): void {
+    if (this.usuarioEditado.id) {
+      this.actualizarUsuario(this.usuarioEditado.id, this.usuarioEditado);
+    } else {
+      this.crearUsuario();
+    }
+  }
+
   limpiarFormulario(): void {
     this.nuevoUsuario = {
       id: '',
@@ -76,33 +99,43 @@ export class GestionUsuariosComponent implements OnInit {
       direcciones: [],
       rol: RolUsuario.Usuario
     };
+    this.usuarioEditado = {
+      id: '',
+      nombre: '',
+      apellido: '',
+      correo: '',
+      clave: '',
+      numeroDeTelefono: '',
+      direcciones: [],
+      rol: RolUsuario.Usuario
+    };
+    this.mostrarFormularioEdicion = false;
   }
 
- // Actualizar un usuario
-actualizarUsuario(id: string, usuario: Usuario): void {
-  const numericId = Number(id);
-  this.usuarioService.actualizarUsuario(numericId, usuario).subscribe(
-    () => {
-      alert('Usuario actualizado');
-      this.obtenerUsuarios(); // Recargar los usuarios
-    },
-    (error) => {
-      console.error('Error al actualizar el usuario:', error);
-    }
-  );
-}
+  actualizarUsuario(id: string, usuario: Usuario): void {
+    const numericId = Number(id);
+    this.usuarioService.actualizarUsuario(numericId, usuario).subscribe({
+      next: () => {
+        alert('Usuario actualizado');
+        this.obtenerUsuarios();
+        this.limpiarFormulario();
+      },
+      error: (error) => {
+        console.error('Error al actualizar usuario:', error);
+      }
+    });
+  }
 
-// Eliminar un usuario
-eliminarUsuario(id: string): void {
-  const numericId = Number(id);
-  this.usuarioService.eliminarUsuario(numericId).subscribe(
-    () => {
-      alert('Usuario eliminado');
-      this.obtenerUsuarios(); // Recargar los usuarios
-    },
-    (error) => {
-      console.error('Error al eliminar el usuario:', error);
-    }
-  );
-}
+  eliminarUsuario(id: string): void {
+    const numericId = Number(id);
+    this.usuarioService.eliminarUsuario(numericId).subscribe({
+      next: () => {
+        alert('Usuario eliminado');
+        this.obtenerUsuarios();
+      },
+      error: (error) => {
+        console.error('Error al eliminar usuario:', error);
+      }
+    });
+  }
 }

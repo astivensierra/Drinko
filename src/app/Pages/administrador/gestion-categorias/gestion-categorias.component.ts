@@ -22,6 +22,8 @@ export class GestionCategoriasComponent implements OnInit {
     nombre: ''
   };
 
+  categoriaEditada: Categoria | null = null;
+
   constructor(private categoriaService: CategoriaService) {}
 
   ngOnInit(): void {
@@ -31,14 +33,25 @@ export class GestionCategoriasComponent implements OnInit {
   }
 
   actualizarCategoria(categoria: Categoria): void {
-    this.categoriaService.actualizarCategoria(categoria.id, categoria).subscribe(() => {
-      alert('Categoria actualizada');
-      this.categoriaService.obtenerCategorias().subscribe((categorias: Categoria[]) => {
-        this.dataSource = categorias;
+    this.categoriaEditada = { ...categoria };
+  }
+
+  guardarCategoria(): void {
+    if (this.categoriaEditada) {
+      this.categoriaService.actualizarCategoria(this.categoriaEditada.id, this.categoriaEditada).subscribe(() => {
+        alert('Categoria actualizada');
+        this.categoriaService.obtenerCategorias().subscribe((categorias: Categoria[]) => {
+          this.dataSource = categorias;
+        });
+        this.categoriaEditada = null;
+      }, (error: any) => {
+        console.error('Error al actualizar la categoria:', error);
       });
-    }, (error: any) => {
-      console.error('Error al actualizar la categoria:', error);
-    });
+    }
+  }
+
+  cancelarEdicion(): void {
+    this.categoriaEditada = null;
   }
 
   crearCategoria(categoria: Categoria): void {
