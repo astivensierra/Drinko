@@ -18,12 +18,12 @@ export class GestionUsuariosComponent implements OnInit {
   dataSource: Usuario[] = [];
 
   nuevoUsuario: Usuario = {
-    id: "",
+    id: '',
     nombre: '',
     apellido: '',
-    correo: "",
-    clave: "",
-    numeroDeTelefono:"",
+    correo: '',
+    clave: '',
+    numeroDeTelefono: '',
     direcciones: [],
     rol: RolUsuario.Usuario
   };
@@ -31,53 +31,78 @@ export class GestionUsuariosComponent implements OnInit {
   constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
-    this.usuarioService.obtenerUsuarios().subscribe((usuarios) => {
-      this.dataSource = usuarios;
-    });
+    this.obtenerUsuarios();
   }
 
-  verificarExistencia(id: number): void {
-    this.usuarioService.verificarExistencia(id).subscribe((existe) => {
-      if (existe) {
-        alert('El usuario existe');
-      } else {
-        alert('El usuario no existe');
+  // Cargar los usuarios desde el servicio
+  obtenerUsuarios(): void {
+    this.usuarioService.obtenerUsuarios().subscribe(
+      (usuarios) => {
+        this.dataSource = usuarios;
+      },
+      (error) => {
+        console.error('Error al cargar los usuarios:', error);
       }
-    }, (error: any) => {
-      console.error('Error al verificar la existencia del usuario:', error);
-    });
+    );
   }
 
-  eliminarUsuario(id: number): void {
-    this.usuarioService.eliminarUsuario(id).subscribe(() => {
-      alert('Usuario eliminado');
-      this.usuarioService.obtenerUsuarios().subscribe((usuarios: Usuario[]) => {
-        this.dataSource = usuarios;
-      });
-    }, (error: any) => {
-      console.error('Error al eliminar el usuario:', error);
-    });
+  // Crear un nuevo usuario
+  crearUsuario(): void {
+    if (this.nuevoUsuario.nombre && this.nuevoUsuario.correo && this.nuevoUsuario.clave) {
+      this.usuarioService.crearUsuario(this.nuevoUsuario).subscribe(
+        () => {
+          alert('Usuario creado');
+          this.obtenerUsuarios(); // Recargar los usuarios
+          this.limpiarFormulario(); // Limpiar formulario después de crear
+        },
+        (error) => {
+          console.error('Error al crear el usuario:', error);
+        }
+      );
+    } else {
+      alert('Por favor complete todos los campos del formulario');
+    }
   }
 
-  actualizarUsuario(id: number, usuario: Usuario): void {
-    this.usuarioService.actualizarUsuario(id, usuario).subscribe(() => {
+  // Limpiar el formulario después de crear
+  limpiarFormulario(): void {
+    this.nuevoUsuario = {
+      id: '',
+      nombre: '',
+      apellido: '',
+      correo: '',
+      clave: '',
+      numeroDeTelefono: '',
+      direcciones: [],
+      rol: RolUsuario.Usuario
+    };
+  }
+
+ // Actualizar un usuario
+actualizarUsuario(id: string, usuario: Usuario): void {
+  const numericId = Number(id);
+  this.usuarioService.actualizarUsuario(numericId, usuario).subscribe(
+    () => {
       alert('Usuario actualizado');
-      this.usuarioService.obtenerUsuarios().subscribe((usuarios: Usuario[]) => {
-        this.dataSource = usuarios;
-      });
-    }, (error: any) => {
+      this.obtenerUsuarios(); // Recargar los usuarios
+    },
+    (error) => {
       console.error('Error al actualizar el usuario:', error);
-    });
-  }
+    }
+  );
+}
 
-  crearUsuario(usuario: Usuario): void {
-    this.usuarioService.crearUsuario(usuario).subscribe(() => {
-      alert('Usuario creado');
-      this.usuarioService.obtenerUsuarios().subscribe((usuarios: Usuario[]) => {
-        this.dataSource = usuarios;
-      });
-    }, (error: any) => {
-      console.error('Error al crear el usuario:', error);
-    });
-  }
+// Eliminar un usuario
+eliminarUsuario(id: string): void {
+  const numericId = Number(id);
+  this.usuarioService.eliminarUsuario(numericId).subscribe(
+    () => {
+      alert('Usuario eliminado');
+      this.obtenerUsuarios(); // Recargar los usuarios
+    },
+    (error) => {
+      console.error('Error al eliminar el usuario:', error);
+    }
+  );
+}
 }

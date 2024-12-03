@@ -1,0 +1,31 @@
+/* Estilos para el botón de agregar producto */
+button.mt-4.bg-blue-500.text-white.p-2 {
+  background-color: #1E90FF; /* Blue background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  border: none; /* Remove borders */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer/hand icon */
+  font-size: 16px; /* Increase font size */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+button.mt-4.bg-blue-500.text-white.p-2:hover {
+  background-color: #1C86EE; /* Darker blue on hover */
+}
+
+/* Estilos para el botón de crear pedido */
+button.mt-4.bg-green-500.text-white.p-2 {
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  border: none; /* Remove borders */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer/hand icon */
+  font-size: 16px; /* Increase font size */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+button.mt-4.bg-green-500.text-white.p-2:hover {
+  background-color: #45a049; /* Darker green on hover */
+}

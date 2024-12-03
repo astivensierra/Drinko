@@ -1,48 +1,69 @@
-<table mat-table [dataSource]="pedidos" class="mat-elevation-z8">
-  <!-- ID Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let pedido"> {{pedido.id}} </td>
-  </ng-container>
+<div class="container mx-auto p-4">
+  <!-- Tabla de Pedidos -->
+  <table mat-table [dataSource]="pedidos" class="mat-elevation-z8 w-full">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let pedido"> {{pedido.id}} </td>
+    </ng-container>
 
-  <!-- Cliente Column -->
-  <ng-container matColumnDef="cliente">
-    <th mat-header-cell *matHeaderCellDef> Cliente </th>
-    <td mat-cell *matCellDef="let pedido"> {{pedido.cliente}} </td>
-  </ng-container>
+    <!-- Cliente Column -->
+    <ng-container matColumnDef="cliente">
+      <th mat-header-cell *matHeaderCellDef> Cliente </th>
+      <td mat-cell *matCellDef="let pedido"> {{pedido.cliente}} </td>
+    </ng-container>
 
-  <!-- Fecha Column -->
-  <ng-container matColumnDef="fecha">
-    <th mat-header-cell *matHeaderCellDef> Fecha </th>
-    <td mat-cell *matCellDef="let pedido"> {{pedido.fecha | date}} </td>
-  </ng-container>
+    <!-- Fecha Column -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let pedido"> {{pedido.fecha | date: 'short'}} </td>
+    </ng-container>
 
-  <!-- Estado Column -->
-  <ng-container matColumnDef="estado">
-    <th mat-header-cell *matHeaderCellDef> Estado </th>
-    <td mat-cell *matCellDef="let pedido"> {{pedido.estado}} </td>
-  </ng-container>
+    <!-- Estado Column -->
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let pedido"> {{pedido.estado}} </td>
+    </ng-container>
 
-  <!-- Acciones Column -->
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-    <td mat-cell *matCellDef="let pedido">
-      <button mat-button (click)="actualizarPedido(pedido.id, pedido)">Actualizar</button>
-      <button mat-button (click)="eliminarPedido(pedido.id)">Eliminar</button>
-    </td>
-  </ng-container>
+    <!-- Acciones Column -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let pedido">
+        <button mat-button color="primary" (click)="actualizarPedido(pedido.id, pedido)">Actualizar</button>
+        <button mat-button color="warn" (click)="eliminarPedido(pedido.id)">Eliminar</button>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnasDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnasDisplay;"></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="columnasDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnasDisplay;"></tr>
+  </table>
 
-<!-- Formulario para crear un nuevo pedido -->
-<form (ngSubmit)="crearPedido(nuevoPedido)">
-  <label for="cliente">Cliente:</label>
-  <input id="cliente" [(ngModel)]="nuevoPedido.cliente" name="cliente" required>
-  <label for="fecha">Fecha:</label>
-  <input id="fecha" [(ngModel)]="nuevoPedido.fecha" name="fecha" type="date" required>
-  <label for="estado">Estado:</label>
-  <input id="estado" [(ngModel)]="nuevoPedido.estado" name="estado" required>
-  <button type="submit" mat-raised-button color="primary">Crear Pedido</button>
-</form>
+  <!-- Formulario para Crear Pedido -->
+  <form (ngSubmit)="crearPedido()" class="mt-8 space-y-4 max-w-lg mx-auto">
+    <label for="cliente">Cliente:</label>
+    <select id="cliente" [(ngModel)]="nuevoPedido.cliente" name="cliente" class="w-full border p-2" required>
+      <option *ngFor="let cliente of clientes" [value]="cliente.id">{{ cliente.nombre }}</option>
+    </select>
+
+    <label for="fecha">Fecha:</label>
+    <input id="fecha" [(ngModel)]="nuevoPedido.fecha" name="fecha" type="date" class="w-full border p-2" required>
+
+    <label for="estado">Estado:</label>
+    <input id="estado" [(ngModel)]="nuevoPedido.estado" name="estado" class="w-full border p-2" required>
+
+    <!-- Agregar Productos al Pedido -->
+    <h3 class="text-lg font-bold mt-4">Productos en el Pedido</h3>
+    <div *ngFor="let producto of nuevoPedido.productos; let i = index" class="border p-4 mb-2">
+      <label for="productoId-{{i}}">Producto:</label>
+      <select id="productoId-{{i}}" [(ngModel)]="producto.productoId" name="productoId-{{i}}" class="w-full border p-2">
+        <option *ngFor="let prod of productos" [value]="prod.id">{{ prod.nombre }}</option>
+      </select>
+      <label for="cantidad-{{i}}">Cantidad:</label>
+      <input id="cantidad-{{i}}" [(ngModel)]="producto.cantidad" name="cantidad-{{i}}" type="number" class="w-full border p-2" required>
+      <button type="button" (click)="eliminarProductoDelPedido(i)" class="mt-2 bg-red-500 text-white p-2">Eliminar Producto</button>
+    </div>
+
+    <button type="button" (click)="agregarProducto()" class="mt-4 bg-blue-500 text-white p-2">Agregar Producto</button>
+    <button type="submit" class="mt-4 bg-green-500 text-white p-2">Crear Pedido</button>
+  </form>
+</div>

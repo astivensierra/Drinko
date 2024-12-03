@@ -1,47 +1,71 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!-- ID Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let usuario"> {{usuario.id}} </td>
-  </ng-container>
+<div class="container mx-auto p-4">
+  <!-- Tabla de Usuarios -->
+  <table mat-table [dataSource]="dataSource" class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+    <!-- Columna ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left font-semibold text-sm"> ID </th>
+      <td mat-cell *matCellDef="let usuario" class="px-4 py-2 text-sm"> {{usuario.id}} </td>
+    </ng-container>
 
-  <!-- Nombre Column -->
-  <ng-container matColumnDef="nombre">
-    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-    <td mat-cell *matCellDef="let usuario"> {{usuario.nombre}} </td>
-  </ng-container>
+    <!-- Columna Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left font-semibold text-sm"> Nombre </th>
+      <td mat-cell *matCellDef="let usuario" class="px-4 py-2 text-sm"> {{usuario.nombre}} </td>
+    </ng-container>
 
-  <!-- Email Column -->
-  <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef> Email </th>
-    <td mat-cell *matCellDef="let usuario"> {{usuario.email}} </td>
-  </ng-container>
+    <!-- Columna Correo -->
+    <ng-container matColumnDef="correo">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left font-semibold text-sm"> Correo </th>
+      <td mat-cell *matCellDef="let usuario" class="px-4 py-2 text-sm"> {{usuario.correo}} </td>
+    </ng-container>
 
-  <!-- Acciones Column -->
-  <ng-container matColumnDef="acciones">
-    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-    <td mat-cell *matCellDef="let usuario">
-      <button mat-button (click)="actualizarUsuario(usuario.id, usuario)">Actualizar</button>
-      <button mat-button (click)="eliminarUsuario(usuario.id)">Eliminar</button>
-    </td>
-  </ng-container>
+    <!-- Columna Contraseña -->
+    <ng-container matColumnDef="clave">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left font-semibold text-sm"> Contraseña </th>
+      <td mat-cell *matCellDef="let usuario" class="px-4 py-2 text-sm"> {{usuario.clave}} </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <!-- Columna Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left font-semibold text-sm"> Acciones </th>
+      <td mat-cell *matCellDef="let usuario" class="px-4 py-2 text-sm">
+        <button mat-button (click)="actualizarUsuario(usuario.id, usuario)" class="bg-blue-500 text-white px-4 py-2 rounded">Actualizar</button>
+        <button mat-button (click)="eliminarUsuario(usuario.id)" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
+      </td>
+    </ng-container>
 
-<!-- Formulario para crear un nuevo usuario -->
-<form (ngSubmit)="crearUsuario(nuevoUsuario)">
-  <label for="nombre">Nombre:</label>
-  <input id="nombre" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required>
-  <label for="email">Email:</label>
-  <input id="email" [(ngModel)]="nuevoUsuario.correo" name="email" type="email" required>
-  <label for="password">Contraseña:</label>
-  <input id="password" [(ngModel)]="nuevoUsuario.clave" name="password" type="password" required>
-  <label for="rol">Rol:</label>
-  <select id="rol" [(ngModel)]="nuevoUsuario.rol" name="rol" required>
-    <option value="admin">Administrador</option>
-    <option value="user">Usuario</option>
-  </select>
-  <button type="submit" mat-raised-button color="primary">Crear Usuario</button>
-</form>
+    <!-- Filas de la tabla -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <!-- Formulario para Crear Usuario -->
+  <form (ngSubmit)="crearUsuario()" class="space-y-4 max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+    <div>
+      <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre:</label>
+      <input id="nombre" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required class="mt-2 p-3 border border-gray-300 rounded w-full">
+    </div>
+
+    <div>
+      <label for="correo" class="block text-sm font-medium text-gray-700">Correo:</label>
+      <input id="correo" [(ngModel)]="nuevoUsuario.correo" name="correo" type="email" required class="mt-2 p-3 border border-gray-300 rounded w-full">
+    </div>
+
+    <div>
+      <label for="clave" class="block text-sm font-medium text-gray-700">Contraseña:</label>
+      <input id="clave" [(ngModel)]="nuevoUsuario.clave" name="clave" type="password" required class="mt-2 p-3 border border-gray-300 rounded w-full">
+    </div>
+
+    <div>
+      <label for="rol" class="block text-sm font-medium text-gray-700">Rol:</label>
+      <select id="rol" [(ngModel)]="nuevoUsuario.rol" name="rol" required class="mt-2 p-3 border border-gray-300 rounded w-full">
+        <option value="admin">Administrador</option>
+        <option value="user">Usuario</option>
+      </select>
+    </div>
+
+    <div class="flex justify-end">
+      <button type="submit" mat-raised-button color="primary" class="bg-blue-500 text-white px-6 py-2 rounded">Crear Usuario</button>
+    </div>
+  </form>
+</div>

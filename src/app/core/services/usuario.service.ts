@@ -39,4 +39,8 @@ export class UsuarioService {
   verificarExistencia(id: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.apiUrl}/verificar/${id}`);
   }
+
+  obtenerUsuariosPorRol(rol: number): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}?rol=${rol}`);
+  }
 }
